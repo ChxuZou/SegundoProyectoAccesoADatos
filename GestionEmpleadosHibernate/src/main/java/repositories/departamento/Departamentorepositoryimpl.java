@@ -1,5 +1,57 @@
 package repositories.departamento;
 
-public class Departamentorepositoryimpl implements Departamentorepository{
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Logger;
 
-}
+import db.HibernateManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
+import models.Departamento;
+
+public class Departamentorepositoryimpl implements Departamentorepository {
+	private final Logger logger = Logger.getLogger(Departamentorepositoryimpl.class.getName());
+	EntityManagerFactory emf = Persistence.createEntityManagerFactory("Departamento");
+
+	@Override
+	public List<Departamento> findAll() {
+		logger.info("finadAll()");
+		HibernateManager hb = HibernateManager.getInstance();
+		hb.open();
+		TypedQuery<Departamento> query = hb.getManager().createNamedQuery("Departamento.findAll", Departamento.class);
+		List<Departamento> listdep = query.getResultList();
+		hb.close();
+		return listdep;
+	}
+
+	@Override
+	public Optional<Departamento> findById(Integer id) {
+		logger.info("findById()");
+		HibernateManager hb = HibernateManager.getInstance();
+		hb.open();
+		Optional<Departamento> dep = Optional.ofNullable(hb.getManager().find(Departamento.class, id));// TODO
+		hb.close();
+		return dep;
+	}
+
+	@Override
+	public Departamento save(Departamento entity) {
+		logger.info("save()");
+		HibernateManager hb = HibernateManager.getInstance();
+		hb.open();
+		hb.getTransaction().begin();
+		try {
+			hb.getManager().merge(entity);
+			hb.getTransaction().commit();
+			hb.close();
+			return entity;
+		} catch (Exception e) {
+			System.out.println("Error al salvar el departamento ");
+		} finally {
+			if (hb.getTransaction().isActive()) {
+				hb.getTransaction().rollback();
+			}
+		}
+		return null;
+	}

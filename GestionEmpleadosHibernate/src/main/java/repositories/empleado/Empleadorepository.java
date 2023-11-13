@@ -1,5 +1,8 @@
 package repositories.empleado;
 
-public class Empleadorepository {
+import models.Empleado;
+import repositories.CrudRepository;
+
+public interface Empleadorepository extends CrudRepository<Empleado, Integer>{
 
 }

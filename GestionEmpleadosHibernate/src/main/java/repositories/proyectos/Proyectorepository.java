@@ -1,5 +1,8 @@
 package repositories.proyectos;
 
-public class Proyectorepository {
+import models.Proyecto;
+import repositories.CrudRepository;
+
+public interface Proyectorepository extends CrudRepository<Proyecto, Integer> {
 
 }
