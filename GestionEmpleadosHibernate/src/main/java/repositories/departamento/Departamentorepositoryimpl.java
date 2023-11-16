@@ -16,7 +16,7 @@ public class Departamentorepositoryimpl implements Departamentorepository {
 
 	@Override
 	public List<Departamento> findAll() {
-		logger.info("finadAll()");
+		logger.info("findAll()");
 		HibernateManager hb = HibernateManager.getInstance();
 		hb.open();
 		TypedQuery<Departamento> query = hb.getManager().createNamedQuery("Departamento.findAll", Departamento.class);
@@ -55,3 +55,26 @@ public class Departamentorepositoryimpl implements Departamentorepository {
 		}
 		return null;
 	}
+
+	@Override
+	public Boolean delete(Departamento entity) {
+		logger.info("delete()");
+		HibernateManager hb=HibernateManager.getInstance();
+		hb.open();
+		try {
+			hb.getTransaction().begin();
+			entity=hb.getManager().find(Departamento.class, entity.getId());
+			hb.getManager().remove(entity);
+			hb.getTransaction().commit();
+			hb.close();
+			return true;
+		} catch (Exception e) {
+			System.out.println("Error al eliminar el departamento");
+		}finally {
+			if (hb.getTransaction().isActive()) {
+				hb.getTransaction().rollback();
+			}
+		}
+		return null;
+	}
+}

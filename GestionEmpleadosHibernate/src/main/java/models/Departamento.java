@@ -1,9 +1,15 @@
 package models;
 
+import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,11 +24,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Departamento {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nombre;
+	@OneToOne
 	private Empleado jefe;
-	// lista de departamentos
-	private Set<Empleado> empleados;
+	
+	@OneToMany
+	private Set<Empleado> empleados;	
 
 	@Override
 	public boolean equals(Object o) {
@@ -34,7 +44,7 @@ public class Departamento {
 
 	@Override
 	public int hashCode() {
-		return this.id;
+		 return Objects.hashCode(this.id);
 	}
 
 }
