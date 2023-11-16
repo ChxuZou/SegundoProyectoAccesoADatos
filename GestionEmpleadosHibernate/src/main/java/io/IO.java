@@ -207,5 +207,19 @@ public class IO {
 	 * static public double leerDecimal() { return readDouble(); }
 	 * static public char leerCaracter() { return readChar(); }
 	 */
-
+	public static Double readSalario(){
+		while (true) {
+			try {
+				double salario;
+				salario=Double.parseDouble(sc.nextLine());
+				if (salario>=0) {
+					return salario;
+				} else {
+					throw new Exception("El salario debe ser mayor a 0");
+				}
+			} catch (Exception e) {
+				System.err.print("ERROR: No es de tipo double ? ");
+			}
+		}
+	}
 }
