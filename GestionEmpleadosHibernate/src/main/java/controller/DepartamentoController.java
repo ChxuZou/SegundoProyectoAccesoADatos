@@ -1,19 +1,25 @@
 package controller;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 import models.Departamento;
+import models.Empleado;
 import repositories.departamento.DepartamentoRepositoryImpl;
+import repositories.empleado.EmpleadoRepositoryImpl;
 import view.DepartamentoView;
 
 public class DepartamentoController {
 	private Logger logger = Logger.getLogger(DepartamentoController.class.getName());
 	private DepartamentoRepositoryImpl departamentoRepositoryImpl;
 	private DepartamentoView departView;
-
+	private EmpleadoRepositoryImpl empRI;
+	
 	public DepartamentoController() {
 		departamentoRepositoryImpl = new DepartamentoRepositoryImpl();
 		departView = new DepartamentoView();
+		empRI = new EmpleadoRepositoryImpl();
+		
 	}
 
 	public void createDepartamento() {
@@ -33,14 +39,20 @@ public class DepartamentoController {
 		departView.mostrar(depart);
 
 	}
-
-	public Departamento updateDepartamento(Departamento departamento) {
-		logger.info("Actualizando el proyecto " + departamento.getId());
-		return departamentoRepositoryImpl.save(departamento);
+	public void mostrarDepartamentos() {
+		List<Departamento> listaAMostrar = departamentoRepositoryImpl.findAll();
+		departView.mostrarDepartamentos(listaAMostrar);
+		
 	}
 
-	public Boolean deleteDepartamento(Departamento departamento) {
-		logger.info("eliminando el proyecto " + departamento.getId() + " con nombre " + departamento.getNombre());
-		return departamentoRepositoryImpl.delete(departamento);
+	public void updateDepartamento() {
+		logger.info("Actualizando el departamento");
+		Departamento depart = departView.update();
+		Empleado emp = empRI.findById();
+		
+	}
+
+	public void deleteDepartamento() {
+		logger.info("");
 	}
 }
