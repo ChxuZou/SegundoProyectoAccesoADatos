@@ -4,6 +4,6 @@ import models.Departamento;
 import repositories.CrudRepository;
 
 
-public interface Departamentorepository extends CrudRepository<Departamento, Integer> {
+public interface DepartamentoRepository extends CrudRepository<Departamento, Integer> {
 
 }

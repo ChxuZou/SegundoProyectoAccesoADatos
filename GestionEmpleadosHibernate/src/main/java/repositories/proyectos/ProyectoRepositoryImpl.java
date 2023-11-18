@@ -9,10 +9,10 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 import models.Proyecto;
-import repositories.empleado.Empleadorepositoryimpl;
+import repositories.empleado.EmpleadoRepositoryImpl;
 
-public class Proyectorepositoryimpl implements Proyectorepository {
-	private final Logger logger = Logger.getLogger(Proyectorepositoryimpl.class.getName());
+public class ProyectoRepositoryImpl implements ProyectoRepository {
+	private final Logger logger = Logger.getLogger(ProyectoRepositoryImpl.class.getName());
 	EntityManagerFactory emf = Persistence.createEntityManagerFactory("Departamento");
 
 	@Override

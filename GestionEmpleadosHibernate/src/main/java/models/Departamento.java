@@ -3,10 +3,12 @@ package models;
 import java.util.Objects;
 import java.util.Set;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -17,7 +19,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "departamento")
+@Table(name = "Departamento")
 @NamedQuery(name = "departamento.findAll", query = "SELECT d FROM Departamento d")
 @Data
 @AllArgsConstructor
@@ -28,16 +30,22 @@ public class Departamento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nombre;
+	
 	@OneToOne
+	@JoinColumn(name= "Empleado_id")
 	private Empleado jefe;
 	
-	@OneToMany
-	private Set<Empleado> empleados;	
+	@OneToMany(mappedBy = "Departamento")
+	private Set<Empleado> empleados;
 
 	@Override
 	public boolean equals(Object o) {
-		if(this==o)return true;
-		if(!(o instanceof Departamento))return false;
+		if (this == o)
+			return true;
+		if (o == null)
+			return false;
+		if (getClass() != o.getClass())
+			return false;
 		Departamento dep=(Departamento) o;
 		return dep.getId().equals(this.getId());
 	}

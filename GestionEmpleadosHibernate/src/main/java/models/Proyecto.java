@@ -30,7 +30,6 @@ public class Proyecto {
 	@OneToMany
 	private Set<Empleado> empleados;
 	
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
