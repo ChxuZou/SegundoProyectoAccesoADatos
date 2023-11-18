@@ -5,13 +5,17 @@ import java.util.logging.Logger;
 
 import models.Empleado;
 import repositories.empleado.EmpleadoRepository;
+import repositories.empleado.EmpleadoRepositoryImpl;
+import view.EmpleadoView;
 
 public class EmpleadoController {
 	Logger logger = Logger.getLogger(EmpleadoController.class.getName());
-	private final EmpleadoRepository empleadorepository;
-
-	public EmpleadoController(EmpleadoRepository empleadorepository) {
-		this.empleadorepository = empleadorepository;
+	private EmpleadoRepositoryImpl empleadorepository;
+	private EmpleadoView view;
+	
+	public EmpleadoController() {
+		empleadorepository = new EmpleadoRepositoryImpl();
+		view = new EmpleadoView();
 	}
 
 	public EmpleadoRepository getEmpleadorepository() {
@@ -23,9 +27,25 @@ public class EmpleadoController {
 		return empleadorepository.save(empleado);
 	}
 
-	public Optional<Empleado> getEmpleadoById(Integer id) {
+	public void getEmpleadoById() {
+		Optional<Empleado> emple;
+		Integer id = view.findById();
 		logger.info("Obteninedo el empleado por el id: " + id);
-		return empleadorepository.findById(id);
+		emple = empleadorepository.findById(id);
+		if (emple != null) {
+			view.mostrar(emple.toString());
+		}
+	}
+	
+	public Empleado getEmpleadoByIdForDepartamento() {
+		Optional<Empleado> emple;
+		Integer id = view.findById();
+		logger.info("Obteninedo el empleado por el id: " + id);
+		emple = empleadorepository.findById(id);
+		if (emple != null) {
+			return emple.get();
+		}
+		return null;
 	}
 
 	public Empleado updateProyecto(Empleado empleado) {

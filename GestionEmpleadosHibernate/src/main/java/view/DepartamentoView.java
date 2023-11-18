@@ -31,6 +31,8 @@ public class DepartamentoView {
 	public Departamento update() {
 		IO.println("Id: ");
 		Integer id = IO.readInt();
+		
+		IO.println("Nuevo nombre: ");
 		String nombre = IO.readString();
 		
 		Departamento depart = Departamento.builder().id(id).nombre(nombre).build();
@@ -44,8 +46,13 @@ public class DepartamentoView {
 		return IO.readInt();
 	}
 	
-	public void eliminar () {
+	public Departamento eliminar () {
+		IO.println("Id del departamento a eliminar:");
+		Integer id = IO.readInt();
 		
+		Departamento depart = Departamento.builder().id(id).build();
+		
+		return depart;
 	}
 	
 	public void mostrar(String mensaje) {
@@ -54,7 +61,6 @@ public class DepartamentoView {
 	
 	public void mostrar(Optional<Departamento> depart) {
 		IO.println(depart);
-		
 	}
 	
 
