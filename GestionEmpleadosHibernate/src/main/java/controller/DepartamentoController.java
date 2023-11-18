@@ -1,32 +1,37 @@
 package controller;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 import models.Departamento;
 import repositories.departamento.DepartamentoRepositoryImpl;
+import view.DepartamentoView;
 
 public class DepartamentoController {
-	private final Logger logger = Logger.getLogger(DepartamentoController.class.getName());
-	private final DepartamentoRepositoryImpl departamentoRepositoryImpl;
+	private Logger logger = Logger.getLogger(DepartamentoController.class.getName());
+	private DepartamentoRepositoryImpl departamentoRepositoryImpl;
+	private DepartamentoView departView;
 
-	public DepartamentoController(DepartamentoRepositoryImpl departamentoRepositoryImpl) {
-		this.departamentoRepositoryImpl = departamentoRepositoryImpl;
+	public DepartamentoController() {
+		departamentoRepositoryImpl = new DepartamentoRepositoryImpl();
+		departView = new DepartamentoView();
 	}
 
-	public List<Departamento> getDepartamentorepository() {
-		logger.info("Obteniendo toods los proyectos");
-		return departamentoRepositoryImpl.findAll();
+	public void createDepartamento() {
+		boolean anadido;
+		Departamento depart;
+
+		logger.info("Crear proyecto");
+		depart = departView.anadir();
+		anadido = departamentoRepositoryImpl.save(depart);
+		departView.mostrar(anadido ? "Añadido" : "No se ha añadido");
 	}
 
-	public Departamento createDepartamento(Departamento departamento) {
-		logger.info("Craer proyecto");
-		return departamentoRepositoryImpl.save(departamento);
-	}
-
-	public Optional<Departamento> getDepartamentoById(Integer id) {
+	public void getDepartamentoById() {
+		Integer id = departView.findById();
 		logger.info("Obteninedo el proyecto por el id: " + id);
-		return departamentoRepositoryImpl.findById(id);
+		Optional<Departamento> depart = departamentoRepositoryImpl.findById(id);
+		departView.mostrar(depart);
+
 	}
 
 	public Departamento updateDepartamento(Departamento departamento) {

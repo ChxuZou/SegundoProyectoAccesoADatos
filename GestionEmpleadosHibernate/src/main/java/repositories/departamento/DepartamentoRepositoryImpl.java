@@ -36,7 +36,7 @@ public class DepartamentoRepositoryImpl implements DepartamentoRepository {
 	}
 
 	@Override
-	public Departamento save(Departamento entity) {
+	public boolean save(Departamento entity) {
 		logger.info("save()");
 		HibernateManager hb = HibernateManager.getInstance();
 		hb.open();
@@ -45,7 +45,7 @@ public class DepartamentoRepositoryImpl implements DepartamentoRepository {
 			hb.getManager().merge(entity);
 			hb.getTransaction().commit();
 			hb.close();
-			return entity;
+			return true;
 		} catch (Exception e) {
 			System.out.println("Error al salvar el departamento ");
 		} finally {
@@ -53,7 +53,7 @@ public class DepartamentoRepositoryImpl implements DepartamentoRepository {
 				hb.getTransaction().rollback();
 			}
 		}
-		return null;
+		return false;
 	}
 
 	@Override
@@ -76,5 +76,12 @@ public class DepartamentoRepositoryImpl implements DepartamentoRepository {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public boolean update(Departamento entity) {
+		logger.info("update()");
+		
+		return false;
 	}
 }

@@ -1,6 +1,7 @@
 package view;
 
 import java.util.List;
+import java.util.Optional;
 
 import io.IO;
 import models.Departamento;
@@ -24,12 +25,11 @@ public class DepartamentoView {
 		}
 	}
 
-	public void anadir() {
+	public Departamento anadir() {
 		IO.println("Nombre: ");
 		String nombre = IO.readString();
 		Departamento depart = Departamento.builder().nombre(nombre).build();
-		boolean anadido = dri.save(depart);
-		IO.println(anadido ? "Departamento añadido" : "El departamento no se ha podido añadir" );
+		return depart;
 	}
 
 	public void modificar(DepartamentoRepositoryImpl dri) {
@@ -56,6 +56,11 @@ public class DepartamentoView {
 		
 	}
 	
+	public int findById() {
+		IO.print("Id?");
+		return IO.readInt();
+	}
+	
 	public void eliminar () {
 		IO.println("Id: ");
 		Integer id = IO.readInt();
@@ -66,6 +71,15 @@ public class DepartamentoView {
 		}
 		boolean eliminar = dri.delete(depart);
 		IO.println(eliminar ? "Eliminado" : "No se ha podido eliminar");
+		
+	}
+	
+	public void mostrar(String mensaje) {
+		IO.println(mensaje);
+	}
+	
+	public void mostrar(Optional<Departamento> depart) {
+		IO.println(depart);
 		
 	}
 	

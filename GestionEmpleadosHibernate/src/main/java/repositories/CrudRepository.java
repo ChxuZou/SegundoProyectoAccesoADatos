@@ -8,8 +8,10 @@ public interface CrudRepository<T, Integer> {
 
     Optional<T> findById(Integer id);
 
-    T save(T entity);
+    boolean save(T entity);
 
     Boolean delete(T entity);
+    
+    boolean update(T entity);
 
 }
