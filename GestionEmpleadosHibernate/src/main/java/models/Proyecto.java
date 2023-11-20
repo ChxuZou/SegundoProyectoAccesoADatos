@@ -2,12 +2,15 @@ package models;
 
 import java.util.Objects;
 import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +30,12 @@ public class Proyecto {
 	private Integer id;
 	private String nombre;
 	
-	@OneToMany
+	@ManyToMany
+    @JoinTable(
+        name = "proyecto_empleado",
+        joinColumns = @JoinColumn(name = "proyecto_id"),
+        inverseJoinColumns = @JoinColumn(name = "empleado_id")
+    )
 	private Set<Empleado> empleados;
 	
 	@Override

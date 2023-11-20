@@ -8,7 +8,7 @@ import models.Departamento;
 public class DepartamentoView {
 
 	final List<String> opciones = List.of("0.- Salir", "1.- Mostrar departamentos", "2.- Crear departamento",
-			"3.- Modificar departamento", "4.- Eliminar departamento");
+			"3.- Modificar departamento", "4.- Eliminar departamento", "5.- Buscar por id");
 
 	public int getOpcion() {
 		IO.println("Departamentos: " + opciones);

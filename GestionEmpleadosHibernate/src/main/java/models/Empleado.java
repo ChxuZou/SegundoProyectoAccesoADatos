@@ -7,9 +7,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,10 +31,11 @@ public class Empleado {
 	private String nombre;
 	private Double salario;
 	
-	@OneToOne
+	@ManyToOne
+	@JoinColumn(name = "departamento_id")
 	private Departamento departamento;
 	
-	@OneToMany
+	@ManyToMany(mappedBy = "empleados")
 	private Set<Proyecto> proyectos;
 	
 	@Override

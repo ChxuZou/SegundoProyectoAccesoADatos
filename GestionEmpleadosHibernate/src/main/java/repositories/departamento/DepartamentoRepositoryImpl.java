@@ -5,14 +5,14 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import db.HibernateManager;
-import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 import models.Departamento;
 
 public class DepartamentoRepositoryImpl implements DepartamentoRepository {
 	private final Logger logger = Logger.getLogger(DepartamentoRepositoryImpl.class.getName());
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("Departamento");
+	EntityManager emf = Persistence.createEntityManagerFactory("default").createEntityManager();
 
 	@Override
 	public List<Departamento> findAll() {
@@ -77,11 +77,5 @@ public class DepartamentoRepositoryImpl implements DepartamentoRepository {
 		}
 		return null;
 	}
-
-	@Override
-	public boolean update(Departamento entity) {
-		logger.info("update()");
-		
-		return false;
-	}
+	
 }

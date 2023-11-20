@@ -1,3 +1,5 @@
+package controller;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -18,12 +20,42 @@ public class ProyectoController {
 		proyectoView = new ProyectoView();
 	}
 
-	public List<Proyecto> getProyectorepository() {
-		logger.info("Obteniendo toods los proyectos");
-		return proyectoRepositoryImpl.findAll();
+	public void menu() {
+		boolean fin = false;
+		Integer opcion;
+		
+		do {
+			opcion = proyectoView.getOpcion();
+			switch (opcion) {
+			case 0:
+				fin = true;
+				break;
+			case 1:
+				getProyectoRepository();
+				break;
+			case 2:
+				createProyecto();
+				break;
+			case 3:
+				updateProyecto();
+				break;
+			case 4:
+				deleteProyecto();
+				break;
+			case 5:
+				findProyectoById();
+				break;
+			}
+		} while (fin == false);
+
+	}
+	private void getProyectoRepository() {
+		logger.info("Obteniendo todos los proyectos");
+		List<Proyecto> lista=  proyectoRepositoryImpl.findAll();
+		proyectoView.mostrarProyectos(lista);
 	}
 
-	public void createProyecto() {
+	private void createProyecto() {
 		boolean anadido;
 		Proyecto proyecto;
 		logger.info("Crear proyecto");
@@ -33,24 +65,28 @@ public class ProyectoController {
 
 	}
 
-	public void getProyectoById() {
+	private void findProyectoById() {
 		Integer id = proyectoView.findById();
 		logger.info("Obteninedo el proyecto por el id: " + id);
 		Optional<Proyecto> proyecto = proyectoRepositoryImpl.findById(id);
 		proyectoView.mostrar(proyecto);
 	}
 
-	public void updateProyecto(Proyecto proyecto) {
-		logger.info("Actualizando el proyecto " + proyecto.getId());
-		proyectoRepositoryImpl.save(proyecto);
+	private void updateProyecto() {
+		Proyecto proyecto;
+		boolean modificado;
+		logger.info("Actualizando el proyecto ");
+		proyecto = proyectoView.update();
+		modificado = proyectoRepositoryImpl.save(proyecto);
+		proyectoView.mostrar(modificado ? "Proyecto modificado" : "No se ha podido modiifcar el proyecto");
 	}
 
-	public void deleteProyecto() {
+	private void deleteProyecto() {
 		Proyecto proyecto;
 		Boolean borrado;
 		logger.info("eliminando el proyecto ");
 		proyecto = proyectoView.eliminar();
 		borrado = proyectoRepositoryImpl.delete(proyecto);
-		proyectoView.mostrar(borrado ?"Proyecto borrado":"No se ha podido eliminar ese proyecto");
+		proyectoView.mostrar(borrado ? "Proyecto borrado" : "No se ha podido eliminar ese proyecto");
 	}
 }

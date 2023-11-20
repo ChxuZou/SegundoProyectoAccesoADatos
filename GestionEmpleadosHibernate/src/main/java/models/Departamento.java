@@ -2,6 +2,7 @@ package models;
 
 import java.util.Objects;
 import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Departamento")
-@NamedQuery(name = "departamento.findAll", query = "SELECT d FROM Departamento d")
+@NamedQuery(name = "Departamento.findAll", query = "SELECT d FROM Departamento d")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,10 +31,10 @@ public class Departamento {
 	private String nombre;
 	
 	@OneToOne
-	@JoinColumn(name= "Empleado_id")
+	@JoinColumn(name= "jefe_id")
 	private Empleado jefe;
 	
-	@OneToMany(mappedBy = "Departamento")
+	@OneToMany(mappedBy = "departamento") //, fetch = FetchType.EAGER
 	private Set<Empleado> empleados;
 
 	@Override

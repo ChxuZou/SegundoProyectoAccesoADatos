@@ -22,10 +22,7 @@ public class EmpleadoController {
 		return empleadorepository;
 	}
 
-	public Empleado createProyecto(Empleado empleado) {
-		logger.info("Craer empleado");
-		return empleadorepository.save(empleado);
-	}
+	
 
 	public void getEmpleadoById() {
 		Optional<Empleado> emple;
@@ -48,10 +45,7 @@ public class EmpleadoController {
 		return null;
 	}
 
-	public Empleado updateProyecto(Empleado empleado) {
-		logger.info("Actualizando el empleado " + empleado.getId());
-		return empleadorepository.save(empleado);
-	}
+
 
 	public Boolean deleteProyecto(Empleado empleado) {
 		logger.info("eliminando el empleado " + empleado.getId() + " con nombre " + empleado.getNombre());

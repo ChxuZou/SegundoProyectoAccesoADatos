@@ -3,6 +3,11 @@ package repositories;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * El método save( ) sirve tanto para guardar como para actualizar
+ * @param <T>
+ * @param <Integer>
+ */
 public interface CrudRepository<T, Integer> {
 	List<T> findAll();
 
@@ -12,6 +17,4 @@ public interface CrudRepository<T, Integer> {
 
     Boolean delete(T entity);
     
-    boolean update(T entity);
-
 }

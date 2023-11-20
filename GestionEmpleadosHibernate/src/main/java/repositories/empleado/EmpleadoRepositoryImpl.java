@@ -5,21 +5,21 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import db.HibernateManager;
-import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 import models.Empleado;
 
 public class EmpleadoRepositoryImpl implements EmpleadoRepository {
 	private final Logger logger = Logger.getLogger(EmpleadoRepositoryImpl.class.getName());
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("Departamento");
+	EntityManager emf = Persistence.createEntityManagerFactory("default").createEntityManager();
 
 	@Override
 	public List<Empleado> findAll() {
 		logger.info("finadAll()");
 		HibernateManager hb = HibernateManager.getInstance();
 		hb.open();
-		TypedQuery<Empleado> query = hb.getManager().createNamedQuery("Departamento.findAll", Empleado.class);
+		TypedQuery<Empleado> query = hb.getManager().createNamedQuery("Empleado.findAll", Empleado.class);
 		List<Empleado> listemp = query.getResultList();
 		hb.close();
 		return listemp;
@@ -36,7 +36,7 @@ public class EmpleadoRepositoryImpl implements EmpleadoRepository {
 	}
 
 	@Override
-	public Empleado save(Empleado entity) {
+	public boolean save(Empleado entity) {
 		logger.info("save()");
 		HibernateManager hb = HibernateManager.getInstance();
 		hb.open();
@@ -45,7 +45,7 @@ public class EmpleadoRepositoryImpl implements EmpleadoRepository {
 			hb.getManager().merge(entity);
 			hb.getTransaction().commit();
 			hb.close();
-			return entity;
+			return true;
 		} catch (Exception e) {
 			System.out.println("Error al salvar el departamento ");
 		} finally {
@@ -53,7 +53,7 @@ public class EmpleadoRepositoryImpl implements EmpleadoRepository {
 				hb.getTransaction().rollback();
 			}
 		}
-		return null;
+		return false;
 	}
 
 	@Override
