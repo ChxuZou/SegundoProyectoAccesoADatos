@@ -1,48 +1,61 @@
 package view;
 
+import java.util.List;
 import java.util.Optional;
 
-import controller.ProyectoController;
 import io.IO;
-import lombok.var;
 import models.Proyecto;
-import repositories.proyectos.Proyectorepositoryimpl;
 
 public class ProyectoView {
-	ProyectoController proyectoController = new ProyectoController(new Proyectorepositoryimpl());
+	final List<String> opciones = List.of("0.- Salir", "1.- Mostrar proyectos", "2.- Crear proyecto",
+			"3.- Modificar proyecto", "4.- Eliminar proyecto");
 
-	public void add() {
-		String nombre;
-		Proyecto pro;
-		IO.println("Introduce el nombre");
-		nombre = IO.readString();
-		pro = Proyecto.builder().nombre(nombre).build();
-		proyectoController.createProyecto(pro);
+	public int getOpcion() {
+		IO.println("proyecto: " + opciones);
+		return IO.readInt();
 	}
 
-	public void modificar(Proyecto pro) {
-		String nombre;
-		if (pro == null) {
-			IO.println("No se ha encontrado ningun departamento");
-		}
-		IO.println("Si no quiere modificar una variable del departamento dele a enter");
-		IO.printf("Nombre [%s] ? ", pro.getNombre());
-		nombre = IO.readString();
-		if (!nombre.isBlank()) {
-			pro.setNombre(nombre);
-		}
-		proyectoController.updateProyecto(pro);
+	public void mostrarProyectos(List<Proyecto> proyecto) {
+		proyecto.stream().forEach(pro -> IO.print(pro));
 	}
 
-	public void mostrar() {
-		var proyectos = proyectoController.getProyectorepository();
-		proyectos.forEach(System.out::println);
-	}
-	public void eliminar(Proyecto pro) {
-		proyectoController.deleteProyecto(pro);
-	}
-	public Optional<Proyecto> findById(Integer id) {
-		Optional<Proyecto> pro=proyectoController.getProyectoById(id);
+	public Proyecto anadir() {
+		IO.println("Nombre: ");
+		String nombre = IO.readString();
+		Proyecto pro = Proyecto.builder().nombre(nombre).build();
 		return pro;
 	}
+
+	public Proyecto update() {
+		IO.println("Id: ");
+		Integer id = IO.readInt();
+		IO.println("Nombre?");
+		String nombre = IO.readString();
+		Proyecto pro = Proyecto.builder().id(id).nombre(nombre).build();
+		return pro;
+	}
+
+	public Proyecto eliminar() {
+		Proyecto pro;
+		Integer id;
+		IO.println("Introduce el id del proyecto");
+		id = IO.readInt();
+		pro = Proyecto.builder().id(id).build();
+		return pro;
+	}
+
+	public int findById() {
+		IO.println("id del proyecto?");
+		return IO.readInt();
+	}
+
+	public void mostrar(String mensaje) {
+		IO.println(mensaje);
+	}
+
+	public void mostrar(Optional<Proyecto> depart) {
+		IO.println(depart);
+
+	}
+
 }

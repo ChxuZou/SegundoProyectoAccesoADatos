@@ -37,7 +37,7 @@ public class ProyectoRepositoryImpl implements ProyectoRepository {
 	}
 
 	@Override
-	public Proyecto save(Proyecto entity) {
+	public Boolean save(Proyecto entity) {
 		logger.info("save()");
 		HibernateManager hb = HibernateManager.getInstance();
 		hb.open();
@@ -46,9 +46,9 @@ public class ProyectoRepositoryImpl implements ProyectoRepository {
 			hb.getManager().merge(entity);
 			hb.getTransaction().commit();
 			hb.close();
-			return entity;
+			return true;
 		} catch (Exception e) {
-			System.out.println("Error al salvar el departamento ");
+			System.out.println("Error al salvar el proyecto ");
 		} finally {
 			if (hb.getTransaction().isActive()) {
 				hb.getTransaction().rollback();
@@ -60,18 +60,40 @@ public class ProyectoRepositoryImpl implements ProyectoRepository {
 	@Override
 	public Boolean delete(Proyecto entity) {
 		logger.info("delete()");
-		HibernateManager hb=HibernateManager.getInstance();
+		HibernateManager hb = HibernateManager.getInstance();
 		hb.open();
 		try {
 			hb.getTransaction().begin();
-			entity=hb.getManager().find(Proyecto.class, entity.getId());
+			entity = hb.getManager().find(Proyecto.class, entity.getId());
 			hb.getManager().remove(entity);
 			hb.getTransaction().commit();
 			hb.close();
 			return true;
 		} catch (Exception e) {
-			System.out.println("Erorr al eliminar el departamento");
-		}finally {
+			System.out.println("Erorr al eliminar el proyecto");
+		} finally {
+			if (hb.getTransaction().isActive()) {
+				hb.getTransaction().rollback();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Boolean update(Proyecto entity) {
+		logger.info("update()");
+		HibernateManager hb = HibernateManager.getInstance();
+		hb.open();
+		try {
+			hb.open();
+			hb.getTransaction().begin();
+			entity = hb.getManager().find(Proyecto.class, entity.getId());
+			hb.getManager().merge(entity);
+			hb.getTransaction().commit();
+			hb.close();
+		} catch (Exception e) {
+			System.out.println("Erorr al eliminar el proyecto");
+		} finally {
 			if (hb.getTransaction().isActive()) {
 				hb.getTransaction().rollback();
 			}

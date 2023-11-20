@@ -1,44 +1,56 @@
-package controller;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
 import models.Proyecto;
-import repositories.proyectos.ProyectoRepository;
+import repositories.proyectos.ProyectoRepositoryImpl;
+import view.ProyectoView;
 
 public class ProyectoController {
 
 	private final Logger logger = Logger.getLogger(ProyectoController.class.getName());
 
-	private final ProyectoRepository proyectorepository;
+	private final ProyectoRepositoryImpl proyectoRepositoryImpl;
+	private final ProyectoView proyectoView;
 
-	public ProyectoController(ProyectoRepository proyectorepository) {
-		this.proyectorepository = proyectorepository;
+	public ProyectoController() {
+		proyectoRepositoryImpl = new ProyectoRepositoryImpl();
+		proyectoView = new ProyectoView();
 	}
 
 	public List<Proyecto> getProyectorepository() {
 		logger.info("Obteniendo toods los proyectos");
-		return proyectorepository.findAll();
+		return proyectoRepositoryImpl.findAll();
 	}
 
-	public Proyecto createProyecto(Proyecto proyecto) {
-		logger.info("Craer proyecto");
-		return proyectorepository.save(proyecto);
+	public void createProyecto() {
+		boolean anadido;
+		Proyecto proyecto;
+		logger.info("Crear proyecto");
+		proyecto = proyectoView.anadir();
+		anadido = proyectoRepositoryImpl.save(proyecto);
+		proyectoView.mostrar(anadido ? "Añadido" : "No se ha añadido");
+
 	}
 
-	public Optional<Proyecto> getProyectoById(Integer id) {
+	public void getProyectoById() {
+		Integer id = proyectoView.findById();
 		logger.info("Obteninedo el proyecto por el id: " + id);
-		return proyectorepository.findById(id);
+		Optional<Proyecto> proyecto = proyectoRepositoryImpl.findById(id);
+		proyectoView.mostrar(proyecto);
 	}
 
-	public Proyecto updateProyecto(Proyecto proyecto) {
+	public void updateProyecto(Proyecto proyecto) {
 		logger.info("Actualizando el proyecto " + proyecto.getId());
-		return proyectorepository.save(proyecto);
+		proyectoRepositoryImpl.save(proyecto);
 	}
 
-	public Boolean deleteProyecto(Proyecto proyecto) {
-		logger.info("eliminando el proyecto " + proyecto.getId() + " con nombre " + proyecto.getNombre());
-		return proyectorepository.delete(proyecto);
+	public void deleteProyecto() {
+		Proyecto proyecto;
+		Boolean borrado;
+		logger.info("eliminando el proyecto ");
+		proyecto = proyectoView.eliminar();
+		borrado = proyectoRepositoryImpl.delete(proyecto);
+		proyectoView.mostrar(borrado ?"Proyecto borrado":"No se ha podido eliminar ese proyecto");
 	}
 }
