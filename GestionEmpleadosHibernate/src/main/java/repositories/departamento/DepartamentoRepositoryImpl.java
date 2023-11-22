@@ -5,18 +5,16 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import db.HibernateManager;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 import models.Departamento;
 
 public class DepartamentoRepositoryImpl implements DepartamentoRepository {
 	private final Logger logger = Logger.getLogger(DepartamentoRepositoryImpl.class.getName());
-	EntityManager emf = Persistence.createEntityManagerFactory("default").createEntityManager();
 
 	@Override
 	public List<Departamento> findAll() {
-		logger.info("findAll()");
+		logger.info("Buscando todos los departamentos");
 		HibernateManager hb = HibernateManager.getInstance();
 		hb.open();
 		TypedQuery<Departamento> query = hb.getManager().createNamedQuery("Departamento.findAll", Departamento.class);
@@ -36,6 +34,7 @@ public class DepartamentoRepositoryImpl implements DepartamentoRepository {
 	}
 
 	@Override
+	@Transactional
 	public boolean save(Departamento entity) {
 		logger.info("save()");
 		HibernateManager hb = HibernateManager.getInstance();
@@ -57,6 +56,7 @@ public class DepartamentoRepositoryImpl implements DepartamentoRepository {
 	}
 
 	@Override
+	@Transactional
 	public Boolean delete(Departamento entity) {
 		logger.info("delete()");
 		HibernateManager hb=HibernateManager.getInstance();

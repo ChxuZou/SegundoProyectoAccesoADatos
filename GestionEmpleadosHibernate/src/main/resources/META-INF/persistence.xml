@@ -20,13 +20,13 @@
 			<property name="jakarta.persistence.jdbc.user" value="root" />
 			<property name="jakarta.persistence.jdbc.password" value="toor" />
 
-			<property name="hibernate.hbm2ddl.auto" value="update"/>
-			<!-- Automatically export the schema -->
+			<!-- Crea las tablas si no existen-->
+			<property name="hibernate.hbm2ddl.auto" value="update" />
 
 			<!-- Echo all executed SQL to console -->
-			<property name="hibernate.show_sql" value="true" />
-			<property name="hibernate.format_sql" value="true" />
-			<property name="hibernate.highlight_sql" value="true" />
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="false" />
+			<property name="hibernate.highlight_sql" value="false" />
 		</properties>
 
 	</persistence-unit>

@@ -5,14 +5,11 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import db.HibernateManager;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 import models.Empleado;
 
 public class EmpleadoRepositoryImpl implements EmpleadoRepository {
 	private final Logger logger = Logger.getLogger(EmpleadoRepositoryImpl.class.getName());
-	EntityManager emf = Persistence.createEntityManagerFactory("default").createEntityManager();
 
 	@Override
 	public List<Empleado> findAll() {
@@ -30,9 +27,9 @@ public class EmpleadoRepositoryImpl implements EmpleadoRepository {
 		logger.info("findById()");
 		HibernateManager hb = HibernateManager.getInstance();
 		hb.open();
-		Optional<Empleado> dep = Optional.ofNullable(hb.getManager().find(Empleado.class, id));// TODO
+		Optional<Empleado> emp = Optional.ofNullable(hb.getManager().find(Empleado.class, id));// TODO
 		hb.close();
-		return dep;
+		return emp;
 	}
 
 	@Override
@@ -75,7 +72,8 @@ public class EmpleadoRepositoryImpl implements EmpleadoRepository {
 				hb.getTransaction().rollback();
 			}
 		}
-		return null;
+		return false;
 	}
+
 
 }

@@ -8,13 +8,14 @@ public class Controller {
 		Integer opcion; 
 		boolean fin= false;
 		
-//		EmpleadoController empCon = new EmpleadoController();
+		EmpleadoController empCon = new EmpleadoController();
 		DepartamentoController departCon = new DepartamentoController();
 		ProyectoController proCon = new ProyectoController();
 		do {
 			opcion = View.getOpcion();
 			switch (opcion) {
 			case 1:
+				empCon.menu();
 				break;
 			case 2:
 				departCon.menu();

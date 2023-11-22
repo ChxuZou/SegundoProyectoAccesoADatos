@@ -89,4 +89,15 @@ public class ProyectoController {
 		borrado = proyectoRepositoryImpl.delete(proyecto);
 		proyectoView.mostrar(borrado ? "Proyecto borrado" : "No se ha podido eliminar ese proyecto");
 	}
+	public Proyecto getProyectoByIdForEmpleado() {
+		Integer id = proyectoView.findById();
+		logger.info("Obteninedo el proyecto por el id: " + id);
+		Optional<Proyecto> proyecto = proyectoRepositoryImpl.findById(id);
+		if (proyecto!=null) {
+			proyectoView.mostrar(proyecto);
+			return proyecto.get();
+		} else {
+			return null;
+		}
+	}
 }

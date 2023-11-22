@@ -3,7 +3,9 @@ package models;
 import java.util.Objects;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,11 +33,11 @@ public class Empleado {
 	private String nombre;
 	private Double salario;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "departamento_id")
 	private Departamento departamento;
 	
-	@ManyToMany(mappedBy = "empleados")
+	@ManyToMany(mappedBy = "empleados", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private Set<Proyecto> proyectos;
 	
 	@Override
@@ -52,6 +54,10 @@ public class Empleado {
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(this.id);
+	}
+	@Override
+	public String toString() {
+		return "Empleado [id=" + id + ", nombre=" + nombre + ", salario=" + salario + ", departamento=" + departamento;
 	}
 
 }

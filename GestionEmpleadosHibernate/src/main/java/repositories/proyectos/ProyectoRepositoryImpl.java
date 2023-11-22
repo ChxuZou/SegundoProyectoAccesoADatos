@@ -5,14 +5,11 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import db.HibernateManager;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 import models.Proyecto;
 
 public class ProyectoRepositoryImpl implements ProyectoRepository {
 	private final Logger logger = Logger.getLogger(ProyectoRepositoryImpl.class.getName());
-	EntityManager emf = Persistence.createEntityManagerFactory("default").createEntityManager();
 
 	@Override
 	public List<Proyecto> findAll() {

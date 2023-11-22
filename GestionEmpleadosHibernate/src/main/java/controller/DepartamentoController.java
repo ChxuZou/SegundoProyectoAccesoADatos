@@ -91,4 +91,17 @@ public class DepartamentoController {
 		boolean borrado = departRepoImpl.delete(depart);
 		departView.mostrar(borrado ? "Borrado" : "No se ha podido borrar");
 	}
+	
+	public Departamento getDepartamentoByIdForEmple() {
+		Integer id = departView.findById();
+		logger.info("Obteninedo el departamento por el id: " + id);
+		Optional<Departamento> depart = departRepoImpl.findById(id);
+		if (depart != null) {
+			departView.mostrar(depart);
+			return depart.get();
+		}else {
+			return null;
+		}
+
+	}
 }

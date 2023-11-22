@@ -3,7 +3,9 @@ package models;
 import java.util.Objects;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,7 +32,7 @@ public class Proyecto {
 	private Integer id;
 	private String nombre;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinTable(
         name = "proyecto_empleado",
         joinColumns = @JoinColumn(name = "proyecto_id"),
@@ -52,5 +54,9 @@ public class Proyecto {
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(this.id);
+	}
+	@Override
+	public String toString() {
+		return "Proyecto [id=" + id + ", nombre=" + nombre + ", empleados=" + empleados + "]\n";
 	}
 }

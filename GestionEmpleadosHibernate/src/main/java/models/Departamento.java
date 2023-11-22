@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,7 +35,7 @@ public class Departamento {
 	@JoinColumn(name= "jefe_id")
 	private Empleado jefe;
 	
-	@OneToMany(mappedBy = "departamento") //, fetch = FetchType.EAGER
+	@OneToMany(mappedBy = "departamento", fetch = FetchType.EAGER) 
 	private Set<Empleado> empleados;
 
 	@Override
@@ -52,6 +53,11 @@ public class Departamento {
 	@Override
 	public int hashCode() {
 		 return Objects.hashCode(this.id);
+	}
+
+	@Override
+	public String toString() {
+		return "Departamento [id=" + id + ", nombre=" + nombre + ", jefe=" + jefe;
 	}
 
 }

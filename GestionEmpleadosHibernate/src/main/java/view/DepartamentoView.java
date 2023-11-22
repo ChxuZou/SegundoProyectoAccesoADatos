@@ -29,7 +29,7 @@ public class DepartamentoView {
 	}
 
 	public Departamento update() {
-		IO.println("Id: ");
+		IO.println("Id del que se quiere cambiar: ");
 		Integer id = IO.readInt();
 		
 		IO.println("Nuevo nombre: ");
@@ -42,7 +42,7 @@ public class DepartamentoView {
 	}
 	
 	public int findById() {
-		IO.print("Id?");
+		IO.print("Id del departamento:");
 		return IO.readInt();
 	}
 	
