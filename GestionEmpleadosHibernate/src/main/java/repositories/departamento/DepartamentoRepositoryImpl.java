@@ -29,24 +29,24 @@ public class DepartamentoRepositoryImpl implements DepartamentoRepository {
 		logger.info("findById()");
 		HibernateManager hb = HibernateManager.getInstance();
 		hb.open();
-		Optional<Departamento> dep = Optional.ofNullable(hb.getManager().find(Departamento.class, id));// TODO
+		Optional<Departamento> dep = Optional.ofNullable(hb.getManager().find(Departamento.class, id));
 		hb.close();
 		return dep;
 	}
 
 	@Override
 	@Transactional
-	public boolean save(Departamento entity) {
+	public boolean save(Departamento departamento) {
 		logger.info("save()");
 		HibernateManager hb = HibernateManager.getInstance();
 		hb.open();
 		hb.getTransaction().begin();
 		try {
-			hb.getManager().merge(entity);
-			if(entity.getJefe()!=null) {
-				entity.getJefe().getDepartamento().setJefe(null);
-			}
+			hb.getManager().merge(departamento);
 			
+			if(departamento.getJefe()!=null) {
+				departamento.getJefe().getDepartamento().setJefe(null);
+			}
 			
 			hb.getTransaction().commit();
 			hb.close();

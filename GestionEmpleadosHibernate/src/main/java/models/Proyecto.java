@@ -1,5 +1,6 @@
 package models;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -31,13 +32,14 @@ public class Proyecto {
 	private Integer id;
 	private String nombre;
 	
+	@Builder.Default
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Empleado.class)
     @JoinTable(
         name = "proyecto_empleado",
         joinColumns = @JoinColumn(name = "proyecto_id"),
         inverseJoinColumns = @JoinColumn(name = "empleado_id")
     )
-	private Set<Empleado> empleados;
+	private Set<Empleado> empleados = new HashSet<Empleado>();
 	
 	@Override
 	public boolean equals(Object obj) {

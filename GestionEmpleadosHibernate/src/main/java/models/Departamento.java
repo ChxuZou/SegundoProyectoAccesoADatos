@@ -35,7 +35,7 @@ public class Departamento {
 	@OneToOne(targetEntity = Empleado.class, cascade = CascadeType.MERGE)
 	private Empleado jefe;
 	
-	public void setJefeYDepartamento(Empleado jefe) {
+	public void setJefeRecursivo(Empleado jefe) {
 		this.jefe = jefe;
 		this.jefe.setDepartamento(this);
 	}

@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import io.IO;
 import models.Empleado;
+import models.Proyecto;
 
 public class EmpleadoView {
 
 	final List<String> opciones = List.of("0.- Salir", "1.- Mostrar empleados", "2.- Crear empleado",
-			"3.- Modificar empleado", "4.- Eliminar empleado");
+			"3.- Modificar empleado", "4.- Eliminar empleado", "5.- Mostrar proyectos de un empleado");
 
 	public int getOpcion() {
 		IO.println("Empleados: " + opciones);
@@ -49,8 +50,13 @@ public class EmpleadoView {
 
 	public void mostrarEmpleados(List<Empleado> lista) {
 		for (Empleado empleado : lista) {
-			IO.print(empleado);
+			IO.println(empleado);
 		}
-		
+	}
+	
+	public void mostrarProyectosDelEmpleado(Optional<Empleado> emp) {
+		for (Proyecto proyecto : emp.get().getProyectos()) {
+			IO.println(proyecto);
+		}
 	}
 }

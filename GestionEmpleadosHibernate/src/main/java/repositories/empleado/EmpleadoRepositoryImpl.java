@@ -27,7 +27,7 @@ public class EmpleadoRepositoryImpl implements EmpleadoRepository {
 		logger.info("findById()");
 		HibernateManager hb = HibernateManager.getInstance();
 		hb.open();
-		Optional<Empleado> emp = Optional.ofNullable(hb.getManager().find(Empleado.class, id));// TODO
+		Optional<Empleado> emp = Optional.ofNullable(hb.getManager().find(Empleado.class, id));
 		hb.close();
 		return emp;
 	}
@@ -40,6 +40,9 @@ public class EmpleadoRepositoryImpl implements EmpleadoRepository {
 		hb.getTransaction().begin();
 		try {
 			hb.getManager().merge(entity);
+			if(entity.getDepartamento()!=null && entity.getDepartamento().getJefe().getId()==entity.getId()) {
+				entity.getDepartamento().setJefe(null);
+			}
 			hb.getTransaction().commit();
 			hb.close();
 			return true;
@@ -61,7 +64,7 @@ public class EmpleadoRepositoryImpl implements EmpleadoRepository {
 		try {
 			hb.getTransaction().begin();
 			entity=hb.getManager().find(Empleado.class, entity.getId());
-			entity.getDepartamento().setJefeYDepartamento(null);
+			entity.getDepartamento().setJefe(null);
 			hb.getManager().remove(entity);
 			hb.getTransaction().commit();
 			hb.close();

@@ -23,7 +23,7 @@ public class ProyectoController {
 	public void menu() {
 		boolean fin = false;
 		Integer opcion;
-		
+
 		do {
 			opcion = proyectoView.getOpcion();
 			switch (opcion) {
@@ -45,13 +45,32 @@ public class ProyectoController {
 			case 5:
 				findProyectoById();
 				break;
+			case 6:
+				mostrarEmpleadosDelProyecto();
+				break;
+			case 7:
+				addEmpleAProyecto();
+				break;
+			default:
+				break;
 			}
 		} while (fin == false);
 
 	}
+
+	private void addEmpleAProyecto() {
+		
+	}
+
+	private void mostrarEmpleadosDelProyecto() {
+		int idPro = proyectoView.findById();
+		Optional<Proyecto> pro = proyectoRepositoryImpl.findById(idPro);
+		proyectoView.mostrarEmpleadosDelProyecto(pro);
+	}
+
 	private void getProyectoRepository() {
 		logger.info("Obteniendo todos los proyectos");
-		List<Proyecto> lista=  proyectoRepositoryImpl.findAll();
+		List<Proyecto> lista = proyectoRepositoryImpl.findAll();
 		proyectoView.mostrarProyectos(lista);
 	}
 
@@ -89,11 +108,12 @@ public class ProyectoController {
 		borrado = proyectoRepositoryImpl.delete(proyecto);
 		proyectoView.mostrar(borrado ? "Proyecto borrado" : "No se ha podido eliminar ese proyecto");
 	}
+
 	public Proyecto getProyectoByIdForEmpleado() {
 		Integer id = proyectoView.findById();
 		logger.info("Obteninedo el proyecto por el id: " + id);
 		Optional<Proyecto> proyecto = proyectoRepositoryImpl.findById(id);
-		if (proyecto!=null) {
+		if (proyecto != null) {
 			proyectoView.mostrar(proyecto);
 			return proyecto.get();
 		} else {

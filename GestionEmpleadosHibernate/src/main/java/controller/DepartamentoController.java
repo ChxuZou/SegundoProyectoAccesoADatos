@@ -42,6 +42,9 @@ public class DepartamentoController {
 			case 5:
 				findDepartamentoById();
 				break;
+			case 6:
+				mostrarEmpleadosDeDepartamento();
+				break;
 			case 0:
 				fin= true;
 				break;
@@ -51,6 +54,12 @@ public class DepartamentoController {
 			}
 		} while (fin == false);
 
+	}
+
+	private void mostrarEmpleadosDeDepartamento() {
+		int idDepart = departView.findById();
+		Optional<Departamento> depart = departRepoImpl.findById(idDepart);
+		departView.mostrarEmpleadosDelDepartamento(depart);
 	}
 
 	private void createDepartamento() {
@@ -80,7 +89,7 @@ public class DepartamentoController {
 		Departamento depart = departView.update();
 		EmpleadoController controller = new EmpleadoController();
 		Empleado emp = controller.getEmpleadoByIdForDepartamento();
-		depart.setJefeYDepartamento(emp);
+		depart.setJefeRecursivo(emp);
 		boolean modificado = departRepoImpl.save(depart);
 		departView.mostrar(modificado ? "Modificado" : "No se ha modificado");
 	}
@@ -92,6 +101,7 @@ public class DepartamentoController {
 		departView.mostrar(borrado ? "Borrado" : "No se ha podido borrar");
 	}
 	
+	//Este método no se usa en esta clase, sólo sirve para EmpleadoController
 	public Departamento getDepartamentoByIdForEmple() {
 		Integer id = departView.findById();
 		logger.info("Obteninedo el departamento por el id: " + id);

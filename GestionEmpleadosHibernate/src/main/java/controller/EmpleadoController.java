@@ -43,11 +43,21 @@ public class EmpleadoController {
 			case 4:
 				deleteEmpleado();
 				break;
+			case 5:
+				mostrarProyectosDelEmpleado();
+				break;
 			default:
 				IO.println("Valor introducido inválido");
 				break;
 			}
 		} while (ejecutar);
+	}
+
+	private void mostrarProyectosDelEmpleado() {
+		int idEmpleado = view.findById();
+		Optional<Empleado> emp= empleadorepository.findById(idEmpleado);
+		view.mostrarProyectosDelEmpleado(emp);
+		
 	}
 
 	private void mostrarEmpleados() {
@@ -120,6 +130,5 @@ public class EmpleadoController {
 		}
 		boolean eliminar = empleadorepository.delete(emple.get());
 		IO.println(eliminar ? "Eliminado" : "No se ha podido eliminar");
-		empleadorepository.delete(emple.get());
 	}
 }
