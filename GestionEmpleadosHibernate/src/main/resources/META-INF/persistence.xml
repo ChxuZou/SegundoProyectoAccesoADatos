@@ -10,7 +10,6 @@
 		<class>models.Empleado</class>
 		<class>models.Proyecto</class>
 
-
 		<properties>
 			<!-- Database connection settings -->
 			<property name="jakarta.persistence.jdbc.url"
@@ -24,9 +23,9 @@
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 
 			<!-- Echo all executed SQL to console -->
-			<property name="hibernate.show_sql" value="false" />
-			<property name="hibernate.format_sql" value="false" />
-			<property name="hibernate.highlight_sql" value="false" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.highlight_sql" value="true" />
 		</properties>
 
 	</persistence-unit>

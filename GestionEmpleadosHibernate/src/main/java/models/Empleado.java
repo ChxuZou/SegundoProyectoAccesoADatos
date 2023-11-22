@@ -2,7 +2,6 @@ package models;
 
 import java.util.Objects;
 import java.util.Set;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,6 +13,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,10 +33,11 @@ public class Empleado {
 	private String nombre;
 	private Double salario;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "departamento_id")
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity=Departamento.class)
+	//@JoinColumn(name = "departamento_FK")
 	private Departamento departamento;
 	
+	@Transient
 	@ManyToMany(mappedBy = "empleados", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private Set<Proyecto> proyectos;
 	
@@ -57,7 +58,7 @@ public class Empleado {
 	}
 	@Override
 	public String toString() {
-		return "Empleado [id=" + id + ", nombre=" + nombre + ", salario=" + salario + ", departamento=" + departamento;
+		return "Empleado [id=" + id + ", nombre=" + nombre + ", salario=" + salario + ", departamento=" + departamento+"\n";
 	}
 
 }
