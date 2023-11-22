@@ -1,5 +1,6 @@
 package models;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -13,7 +14,6 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,13 +32,18 @@ public class Departamento {
 	private Integer id;
 	private String nombre;
 	
-	@OneToOne(targetEntity = Empleado.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@OneToOne(targetEntity = Empleado.class, cascade = CascadeType.MERGE)
 	private Empleado jefe;
 	
-	@OneToMany(mappedBy = "departamento", fetch = FetchType.EAGER) 
-	@Transient
-	private Set<Empleado> empleados;
-
+	public void setJefeYDepartamento(Empleado jefe) {
+		this.jefe = jefe;
+		this.jefe.setDepartamento(this);
+	}
+	
+	@Builder.Default
+	@OneToMany(mappedBy = "departamento", fetch = FetchType.EAGER, targetEntity = Empleado.class, cascade = CascadeType.MERGE) 
+	private Set<Empleado> empleados = new HashSet<>();
+	
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -58,7 +63,7 @@ public class Departamento {
 
 	@Override
 	public String toString() {
-		return "Departamento [id=" + id + ", nombre=" + nombre + ", jefe=" + jefe+"\n";
+		return "id: " + this.getId() + ", nombre: " + this.getNombre() + ", jefe: " +(this.jefe!=null?"[id: " + jefe.getId()+", nombre: "+jefe.getNombre()+"]\n":null+"\n");
 	}
 
 }

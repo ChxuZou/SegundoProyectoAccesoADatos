@@ -5,6 +5,7 @@ import view.View;
 public class Controller {
 
 	public Controller() {
+		
 		Integer opcion; 
 		boolean fin= false;
 		

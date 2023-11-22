@@ -2,7 +2,7 @@ package models;
 
 import java.util.Objects;
 import java.util.Set;
-import jakarta.persistence.CascadeType;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +13,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,8 +31,7 @@ public class Proyecto {
 	private Integer id;
 	private String nombre;
 	
-	@Transient
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Empleado.class)
     @JoinTable(
         name = "proyecto_empleado",
         joinColumns = @JoinColumn(name = "proyecto_id"),
@@ -58,6 +56,6 @@ public class Proyecto {
 	}
 	@Override
 	public String toString() {
-		return "Proyecto [id=" + id + ", nombre=" + nombre + ", empleados=" + empleados + "]\n";
+		return "id: " + this.getId() + ", nombre: " + this.getNombre() + "\n";
 	}
 }

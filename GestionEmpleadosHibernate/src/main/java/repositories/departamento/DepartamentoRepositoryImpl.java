@@ -8,6 +8,7 @@ import db.HibernateManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import models.Departamento;
+import models.Empleado;
 
 public class DepartamentoRepositoryImpl implements DepartamentoRepository {
 	private final Logger logger = Logger.getLogger(DepartamentoRepositoryImpl.class.getName());
@@ -42,6 +43,11 @@ public class DepartamentoRepositoryImpl implements DepartamentoRepository {
 		hb.getTransaction().begin();
 		try {
 			hb.getManager().merge(entity);
+			if(entity.getJefe()!=null) {
+				entity.getJefe().getDepartamento().setJefe(null);
+			}
+			
+			
 			hb.getTransaction().commit();
 			hb.close();
 			return true;
@@ -57,13 +63,18 @@ public class DepartamentoRepositoryImpl implements DepartamentoRepository {
 
 	@Override
 	@Transactional
-	public Boolean delete(Departamento entity) {
+	public boolean delete(Departamento entity) {
 		logger.info("delete()");
 		HibernateManager hb=HibernateManager.getInstance();
 		hb.open();
+		
 		try {
 			hb.getTransaction().begin();
 			entity=hb.getManager().find(Departamento.class, entity.getId());
+			for (Empleado empleado : entity.getEmpleados()) {
+				empleado.setDepartamento(null);
+			}
+			entity.setJefe(null);
 			hb.getManager().remove(entity);
 			hb.getTransaction().commit();
 			hb.close();
@@ -75,7 +86,7 @@ public class DepartamentoRepositoryImpl implements DepartamentoRepository {
 				hb.getTransaction().rollback();
 			}
 		}
-		return null;
+		return false;
 	}
 	
 }

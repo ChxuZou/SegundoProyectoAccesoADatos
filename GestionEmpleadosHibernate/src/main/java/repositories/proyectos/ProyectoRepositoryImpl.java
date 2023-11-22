@@ -27,7 +27,7 @@ public class ProyectoRepositoryImpl implements ProyectoRepository {
 		logger.info("findById()");
 		HibernateManager hb = HibernateManager.getInstance();
 		hb.open();
-		Optional<Proyecto> dep = Optional.ofNullable(hb.getManager().find(Proyecto.class, id));// TODO
+		Optional<Proyecto> dep = Optional.ofNullable(hb.getManager().find(Proyecto.class, id));
 		hb.close();
 		return dep;
 	}
@@ -54,7 +54,7 @@ public class ProyectoRepositoryImpl implements ProyectoRepository {
 	}
 
 	@Override
-	public Boolean delete(Proyecto entity) {
+	public boolean delete(Proyecto entity) {
 		logger.info("delete()");
 		HibernateManager hb = HibernateManager.getInstance();
 		hb.open();
@@ -72,7 +72,7 @@ public class ProyectoRepositoryImpl implements ProyectoRepository {
 				hb.getTransaction().rollback();
 			}
 		}
-		return null;
+		return false;
 	}
 
 }

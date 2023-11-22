@@ -54,19 +54,20 @@ public class EmpleadoRepositoryImpl implements EmpleadoRepository {
 	}
 
 	@Override
-	public Boolean delete(Empleado entity) {
+	public boolean delete(Empleado entity) {
 		logger.info("delete()");
 		HibernateManager hb=HibernateManager.getInstance();
 		hb.open();
 		try {
 			hb.getTransaction().begin();
 			entity=hb.getManager().find(Empleado.class, entity.getId());
+			entity.getDepartamento().setJefeYDepartamento(null);
 			hb.getManager().remove(entity);
 			hb.getTransaction().commit();
 			hb.close();
 			return true;
 		} catch (Exception e) {
-			System.out.println("Erorr al eliminar el departamento");
+			System.out.println("Error al eliminar el empleado");
 		}finally {
 			if (hb.getTransaction().isActive()) {
 				hb.getTransaction().rollback();

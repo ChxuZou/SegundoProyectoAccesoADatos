@@ -80,7 +80,7 @@ public class DepartamentoController {
 		Departamento depart = departView.update();
 		EmpleadoController controller = new EmpleadoController();
 		Empleado emp = controller.getEmpleadoByIdForDepartamento();
-		depart.setJefe(emp);
+		depart.setJefeYDepartamento(emp);
 		boolean modificado = departRepoImpl.save(depart);
 		departView.mostrar(modificado ? "Modificado" : "No se ha modificado");
 	}

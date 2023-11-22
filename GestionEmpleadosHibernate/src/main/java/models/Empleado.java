@@ -2,18 +2,17 @@ package models;
 
 import java.util.Objects;
 import java.util.Set;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,12 +32,11 @@ public class Empleado {
 	private String nombre;
 	private Double salario;
 	
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, targetEntity=Departamento.class)
+	@ManyToOne(targetEntity=Departamento.class, cascade = CascadeType.MERGE)
 	//@JoinColumn(name = "departamento_FK")
 	private Departamento departamento;
 	
-	@Transient
-	@ManyToMany(mappedBy = "empleados", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@ManyToMany(mappedBy = "empleados", fetch = FetchType.EAGER, targetEntity = Proyecto.class)
 	private Set<Proyecto> proyectos;
 	
 	@Override
@@ -58,7 +56,7 @@ public class Empleado {
 	}
 	@Override
 	public String toString() {
-		return "Empleado [id=" + id + ", nombre=" + nombre + ", salario=" + salario + ", departamento=" + departamento+"\n";
+		return "id=" + this.getId()+", nombre: "+this.getNombre() +", salario=" + this.getSalario() + ", departamento: "+ (departamento!=null ? "[id: "+this.departamento.getId()+", nombre: "+this.departamento.getNombre()+"]\n" : null+"\n");
 	}
 
 }
