@@ -1,5 +1,6 @@
 package models;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -26,7 +27,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Departamento {
+public class Departamento implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -52,10 +57,12 @@ public class Departamento {
 	
 	public void addEmpleado(Empleado empleado) {
 		this.getEmpleados().add(empleado);
+		empleado.setDepartamento(this);
 	}
 	
 	public void removeEmpleado(Empleado empleado) {
 		this.getEmpleados().remove(empleado);
+		empleado.setDepartamento(null);
 	}
 	
 	

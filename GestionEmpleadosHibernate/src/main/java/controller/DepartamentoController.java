@@ -45,6 +45,9 @@ public class DepartamentoController {
 			case 6:
 				mostrarEmpleadosDeDepartamento();
 				break;
+			case 7:
+				addEmpleadoADepartamento();
+				break;
 			case 0:
 				fin= true;
 				break;
@@ -54,6 +57,17 @@ public class DepartamentoController {
 			}
 		} while (fin == false);
 
+	}
+
+	private void addEmpleadoADepartamento() {
+		int idDepart = departView.findById();
+		Optional<Departamento> depart = departRepoImpl.findById(idDepart);
+		EmpleadoController controller = new EmpleadoController();
+		Empleado empleado = controller.getEmpleadoByIdForDepartamento();
+		depart.get().addEmpleado(empleado);
+		boolean add = departRepoImpl.save(depart.get());
+		departView.mostrar(add? "Añadido": "No se ha añadido");
+		
 	}
 
 	private void mostrarEmpleadosDeDepartamento() {

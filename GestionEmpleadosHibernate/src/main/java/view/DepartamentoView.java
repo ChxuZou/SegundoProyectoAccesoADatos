@@ -10,7 +10,8 @@ public class DepartamentoView {
 
 	final List<String> opciones = List.of("1.- Mostrar departamentos", "2.- Crear departamento",
 			"3.- Modificar departamento", "4.- Eliminar departamento", "5.- Buscar departamento por id",
-			"6.- Mostrar todos los empleados de un departamento", "0.- Salir");
+			"6.- Mostrar todos los empleados de un departamento", "7.- Añadir un empleado a un departamento",
+			"0.- Salir");
 
 	public int getOpcion() {
 		IO.println("Departamentos: ");
@@ -19,8 +20,8 @@ public class DepartamentoView {
 		}
 		return IO.readInt();
 	}
-	
-	public void mostrarDepartamentos (List<Departamento> departamento) {
+
+	public void mostrarDepartamentos(List<Departamento> departamento) {
 		for (Departamento depart : departamento) {
 			IO.println(depart);
 		}
@@ -36,42 +37,40 @@ public class DepartamentoView {
 	public Departamento update() {
 		IO.println("Id del departamento que se quiere modificar: ");
 		Integer id = IO.readInt();
-		
+
 		IO.println("Nuevo nombre: ");
 		String nombre = IO.readString();
-		
+
 		Departamento depart = Departamento.builder().id(id).nombre(nombre).build();
-		
+
 		return depart;
-		
+
 	}
-	
+
 	public int findById() {
-		IO.print("Id del departamento a buscar:");
+		IO.print("Id del departamento:");
 		return IO.readInt();
 	}
-	
-	public Departamento eliminar () {
+
+	public Departamento eliminar() {
 		IO.println("Id del departamento a eliminar:");
 		Integer id = IO.readInt();
 		Departamento depart = Departamento.builder().id(id).build();
 		return depart;
 	}
-	
+
 	public void mostrar(String mensaje) {
 		IO.println(mensaje);
 	}
-	
+
 	public void mostrar(Optional<Departamento> depart) {
 		IO.println(depart);
 	}
-	
+
 	public void mostrarEmpleadosDelDepartamento(Optional<Departamento> depart) {
 		for (Empleado empleado : depart.get().getEmpleados()) {
 			IO.println(empleado);
 		}
 	}
-	
-	
 
 }
