@@ -41,6 +41,16 @@ public class Proyecto {
     )
 	private Set<Empleado> empleados = new HashSet<Empleado>();
 	
+	public void addEmpleadoRecursivo(Empleado empleado) {
+		this.getEmpleados().add(empleado);
+		empleado.getProyectos().add(this);
+	}
+	
+	public void removeEmpleadoRecursivo(Empleado empleado) {
+		this.removeEmpleadoRecursivo(empleado);
+		empleado.getProyectos().add(this);
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -58,6 +68,6 @@ public class Proyecto {
 	}
 	@Override
 	public String toString() {
-		return "id: " + this.getId() + ", nombre: " + this.getNombre() + "\n";
+		return "id: " + this.getId() + ", nombre: " + this.getNombre();
 	}
 }

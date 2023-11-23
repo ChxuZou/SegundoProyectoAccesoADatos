@@ -44,6 +44,7 @@ public class DepartamentoRepositoryImpl implements DepartamentoRepository {
 		try {
 			hb.getManager().merge(departamento);
 			
+			
 			if(departamento.getJefe()!=null) {
 				departamento.getJefe().getDepartamento().setJefe(null);
 			}
@@ -71,9 +72,12 @@ public class DepartamentoRepositoryImpl implements DepartamentoRepository {
 		try {
 			hb.getTransaction().begin();
 			entity=hb.getManager().find(Departamento.class, entity.getId());
+			//Todos los empleados que pertenecian al departamento pasan a departamento null
 			for (Empleado empleado : entity.getEmpleados()) {
 				empleado.setDepartamento(null);
 			}
+			//El jefe del departamento pasa a ser null, no se llama a setJefeRecursivo ya que
+			//el código anterior le quita el departamento al jefe (el jefe es un empleado también)
 			entity.setJefe(null);
 			hb.getManager().remove(entity);
 			hb.getTransaction().commit();

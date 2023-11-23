@@ -37,6 +37,21 @@ public class Empleado {
 	//@JoinColumn(name = "departamento_FK")
 	private Departamento departamento;
 	
+	public void setDepartamentoRecursivo(Departamento departamento) {
+		this.departamento = departamento;
+		this.departamento.addEmpleado(this);
+	}
+	
+	public void addProyectoRecursivo(Proyecto proyecto) {
+		this.getProyectos().add(proyecto);
+		proyecto.getEmpleados().add(this);
+	}
+	
+	public void removeProyectoRecursivo(Proyecto proyecto) {
+		this.getProyectos().remove(proyecto);
+		proyecto.getEmpleados().remove(this);
+	}
+	
 	@Builder.Default
 	@ManyToMany(mappedBy = "empleados", fetch = FetchType.EAGER, targetEntity = Proyecto.class)
 	private Set<Proyecto> proyectos = new HashSet<>();
@@ -58,7 +73,7 @@ public class Empleado {
 	}
 	@Override
 	public String toString() {
-		return "id=" + this.getId()+", nombre: "+this.getNombre() +", salario=" + this.getSalario() + ", departamento: "+ (departamento!=null ? "[id: "+this.departamento.getId()+", nombre: "+this.departamento.getNombre()+"]\n" : null+"\n");
+		return "id=" + this.getId()+", nombre: "+this.getNombre() +", salario=" + this.getSalario() + ", departamento: "+ (departamento!=null ? "[id: "+this.departamento.getId()+", nombre: "+this.departamento.getNombre()+"]" : null);
 	}
 
 }

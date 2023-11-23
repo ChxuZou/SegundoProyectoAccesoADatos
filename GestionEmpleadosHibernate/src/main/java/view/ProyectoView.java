@@ -12,7 +12,10 @@ public class ProyectoView {
 			"3.- Modificar proyecto", "4.- Eliminar proyecto");
 
 	public int getOpcion() {
-		IO.println("proyecto: " + opciones);
+		IO.println("proyecto: ");
+		for (String opcion : opciones) {
+			IO.println(opcion);
+		}
 		return IO.readInt();
 	}
 
@@ -30,7 +33,7 @@ public class ProyectoView {
 	public Proyecto update() {
 		IO.println("Id del proyecto a modificar: ");
 		Integer id = IO.readInt();
-		IO.println("Nombre: ");
+		IO.println("Nuevo nombre: ");
 		String nombre = IO.readString();
 		Proyecto pro = Proyecto.builder().id(id).nombre(nombre).build();
 		return pro;

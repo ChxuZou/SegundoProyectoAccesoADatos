@@ -12,7 +12,10 @@ public class EmpleadoView {
 			"3.- Modificar empleado", "4.- Eliminar empleado", "5.- Mostrar proyectos de un empleado");
 
 	public int getOpcion() {
-		IO.println("Empleados: " + opciones);
+		IO.println("Empleados: ");
+		for (String opcion : opciones) {
+			IO.println(opcion);
+		}
 		return IO.readInt();
 	}
 

@@ -40,9 +40,24 @@ public class Departamento {
 		this.jefe.setDepartamento(this);
 	}
 	
+	public void nullJefeRecursivo(Empleado jefe) {
+		this.jefe = null;
+		jefe.setDepartamento(null);
+		
+	}
+	
 	@Builder.Default
 	@OneToMany(mappedBy = "departamento", fetch = FetchType.EAGER, targetEntity = Empleado.class, cascade = CascadeType.MERGE) 
 	private Set<Empleado> empleados = new HashSet<>();
+	
+	public void addEmpleado(Empleado empleado) {
+		this.getEmpleados().add(empleado);
+	}
+	
+	public void removeEmpleado(Empleado empleado) {
+		this.getEmpleados().remove(empleado);
+	}
+	
 	
 	@Override
 	public boolean equals(Object o) {
@@ -63,7 +78,7 @@ public class Departamento {
 
 	@Override
 	public String toString() {
-		return "id: " + this.getId() + ", nombre: " + this.getNombre() + ", jefe: " +(this.jefe!=null?"[id: " + jefe.getId()+", nombre: "+jefe.getNombre()+"]\n":null+"\n");
+		return "id: " + this.getId() + ", nombre: " + this.getNombre() + ", jefe: " +(this.jefe!=null?"[id: " + jefe.getId()+", nombre: "+jefe.getNombre()+"]":null);
 	}
 
 }

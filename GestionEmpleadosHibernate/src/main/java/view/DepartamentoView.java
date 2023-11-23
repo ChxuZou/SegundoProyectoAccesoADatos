@@ -8,11 +8,15 @@ import models.Empleado;
 
 public class DepartamentoView {
 
-	final List<String> opciones = List.of("0.- Salir", "1.- Mostrar departamentos", "2.- Crear departamento",
-			"3.- Modificar departamento", "4.- Eliminar departamento", "5.- Buscar por id", "6.- Mostrar todos los empleados de un departamento");
+	final List<String> opciones = List.of("1.- Mostrar departamentos", "2.- Crear departamento",
+			"3.- Modificar departamento", "4.- Eliminar departamento", "5.- Buscar departamento por id",
+			"6.- Mostrar todos los empleados de un departamento", "0.- Salir");
 
 	public int getOpcion() {
-		IO.println("Departamentos: " + opciones);
+		IO.println("Departamentos: ");
+		for (String opcion : opciones) {
+			IO.println(opcion);
+		}
 		return IO.readInt();
 	}
 	
@@ -23,14 +27,14 @@ public class DepartamentoView {
 	}
 
 	public Departamento anadir() {
-		IO.println("Nombre: ");
+		IO.println("Nombre del departamento: ");
 		String nombre = IO.readString();
 		Departamento depart = Departamento.builder().nombre(nombre).build();
 		return depart;
 	}
 
 	public Departamento update() {
-		IO.println("Id del que se quiere cambiar: ");
+		IO.println("Id del departamento que se quiere modificar: ");
 		Integer id = IO.readInt();
 		
 		IO.println("Nuevo nombre: ");
@@ -43,16 +47,14 @@ public class DepartamentoView {
 	}
 	
 	public int findById() {
-		IO.print("Id del departamento:");
+		IO.print("Id del departamento a buscar:");
 		return IO.readInt();
 	}
 	
 	public Departamento eliminar () {
 		IO.println("Id del departamento a eliminar:");
 		Integer id = IO.readInt();
-		
 		Departamento depart = Departamento.builder().id(id).build();
-		
 		return depart;
 	}
 	
@@ -69,6 +71,7 @@ public class DepartamentoView {
 			IO.println(empleado);
 		}
 	}
+	
 	
 
 }
