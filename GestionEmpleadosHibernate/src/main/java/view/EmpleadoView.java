@@ -9,7 +9,8 @@ import models.Proyecto;
 public class EmpleadoView {
 
 	final List<String> opciones = List.of("0.- Salir", "1.- Mostrar empleados", "2.- Crear empleado",
-			"3.- Modificar empleado", "4.- Eliminar empleado", "5.- Mostrar proyectos de un empleado");
+			"3.- Modificar empleado", "4.- Eliminar empleado", "5.- Mostrar proyectos de un empleado",
+			"6.- Añadir proyecto", "7.- Mostrar empleado por ID");
 
 	public int getOpcion() {
 		IO.println("Empleados: ");
@@ -32,17 +33,6 @@ public class EmpleadoView {
 		return emp;
 	}
 
-	public Empleado modificar() {
-		IO.println("Id del empleado a modificar: ");
-		Integer id = IO.readInt();
-		IO.println("Nuevo nombre? ");
-		String nombre = IO.readString();
-		IO.println("Nuevo salario? ");
-		double salario = IO.readSalario();
-		Empleado emple = Empleado.builder().nombre(nombre).id(id).salario(salario).build();
-		return emple;
-	}
-
 	public void mostrar(String msg) {
 		IO.println(msg);
 	}
@@ -61,5 +51,16 @@ public class EmpleadoView {
 		for (Proyecto proyecto : emp.get().getProyectos()) {
 			IO.println(proyecto);
 		}
+	}
+	
+	public Optional<Empleado> modificar() {
+		IO.println("Id del empleado a modificar: ");
+		Integer id = IO.readInt();
+		IO.println("Nuevo nombre? ");
+		String nombre = IO.readNombre();
+		IO.println("Nuevo salario? ");
+		double salario = IO.readSalario();
+		Empleado emple = Empleado.builder().nombre(nombre).id(id).salario(salario).build();
+		return Optional.ofNullable(emple);
 	}
 }

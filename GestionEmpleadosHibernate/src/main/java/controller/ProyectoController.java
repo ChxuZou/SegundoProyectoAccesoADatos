@@ -1,9 +1,12 @@
 package controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import io.IO;
+import models.Empleado;
 import models.Proyecto;
 import repositories.proyectos.ProyectoRepositoryImpl;
 import view.ProyectoView;
@@ -23,7 +26,6 @@ public class ProyectoController {
 	public void menu() {
 		boolean fin = false;
 		Integer opcion;
-
 		do {
 			opcion = proyectoView.getOpcion();
 			switch (opcion) {
@@ -43,7 +45,7 @@ public class ProyectoController {
 				deleteProyecto();
 				break;
 			case 5:
-				findProyectoById();
+				mostrarProyectoById();
 				break;
 			case 6:
 				mostrarEmpleadosDelProyecto();
@@ -59,7 +61,18 @@ public class ProyectoController {
 	}
 
 	private void addEmpleAProyecto() {
-		
+		try {
+
+			int idPro = proyectoView.findById();
+			Optional<Proyecto> proyecto = proyectoRepositoryImpl.findById(idPro);
+			EmpleadoController empleadoController = new EmpleadoController();
+			Empleado empleado = empleadoController.getEmpleadoByIdForDepartamento();
+			proyecto.get().addEmpleado(empleado);
+			boolean add = proyectoRepositoryImpl.save(proyecto.get());
+			proyectoView.mostrar(add ? "Se ha añadido empleado al proyecto" : "No se ha añadido al proyecto");
+		} catch (NoSuchElementException e) {
+			IO.println("No se ha podido añadir empleado al proyecto, porque no existe");
+		}
 	}
 
 	private void mostrarEmpleadosDelProyecto() {
@@ -84,12 +97,12 @@ public class ProyectoController {
 
 	}
 
-	private void findProyectoById() {
-		Integer id = proyectoView.findById();
-		logger.info("Obteninedo el proyecto por el id: " + id);
-		Optional<Proyecto> proyecto = proyectoRepositoryImpl.findById(id);
-		proyectoView.mostrar(proyecto);
+	
+	
+	private void mostrarProyectoById() {
+		proyectoView.mostrar(findProyectoById());
 	}
+	
 
 	private void updateProyecto() {
 		Proyecto proyecto;
@@ -109,15 +122,10 @@ public class ProyectoController {
 		proyectoView.mostrar(borrado ? "Proyecto borrado" : "No se ha podido eliminar ese proyecto");
 	}
 
-	public Proyecto getProyectoByIdForEmpleado() {
+	public Optional<Proyecto> findProyectoById() {
 		Integer id = proyectoView.findById();
 		logger.info("Obteninedo el proyecto por el id: " + id);
 		Optional<Proyecto> proyecto = proyectoRepositoryImpl.findById(id);
-		if (proyecto != null) {
-			proyectoView.mostrar(proyecto);
-			return proyecto.get();
-		} else {
-			return null;
-		}
+		return proyecto;
 	}
 }

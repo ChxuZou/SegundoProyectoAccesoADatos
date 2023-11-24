@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -40,7 +41,7 @@ public class DepartamentoController {
 				deleteDepartamento();
 				break;
 			case 5:
-				findDepartamentoById();
+				mostrarDepartamentoById();
 				break;
 			case 6:
 				mostrarEmpleadosDeDepartamento();
@@ -48,10 +49,12 @@ public class DepartamentoController {
 			case 7:
 				addEmpleadoADepartamento();
 				break;
+			case 8:
+				removeEmpleadoDeDepartamento();
+				break;
 			case 0:
 				fin= true;
 				break;
-
 			default:
 				break;
 			}
@@ -59,12 +62,27 @@ public class DepartamentoController {
 
 	}
 
+	private void removeEmpleadoDeDepartamento() {
+		int idDepart = departView.findById();
+		EmpleadoController controller = new EmpleadoController();
+		Optional <Empleado> emple = controller.findById();
+		try {
+			Optional<Departamento> depart = departRepoImpl.findById(idDepart);
+			depart.get().removeEmpleado(emple.get());
+			boolean borrado = departRepoImpl.save(depart.get());
+			departView.mostrar(borrado ? "Empleado eliminado del departamento": "No se ha podido eliminar el empleado del departamento");
+		} catch (NoSuchElementException e) {
+			departView.mostrar("No se ha encontrado el departamento con id "+idDepart);
+		}
+		
+	}
+
 	private void addEmpleadoADepartamento() {
 		int idDepart = departView.findById();
 		Optional<Departamento> depart = departRepoImpl.findById(idDepart);
 		EmpleadoController controller = new EmpleadoController();
-		Empleado empleado = controller.getEmpleadoByIdForDepartamento();
-		depart.get().addEmpleado(empleado);
+		Optional<Empleado> empleado = controller.findById();
+		depart.get().addEmpleado(empleado.get());
 		boolean add = departRepoImpl.save(depart.get());
 		departView.mostrar(add? "Añadido": "No se ha añadido");
 		
@@ -85,12 +103,9 @@ public class DepartamentoController {
 		departView.mostrar(anadido ? "Añadido" : "No se ha añadido");
 	}
 
-	private void findDepartamentoById() {
-		Integer id = departView.findById();
-		logger.info("Obteninedo el proyecto por el id: " + id);
-		Optional<Departamento> depart = departRepoImpl.findById(id);
-		departView.mostrar(depart);
-
+	private void mostrarDepartamentoById() {
+		departView.mostrar(findById());
+		
 	}
 
 	private void mostrarDepartamentos() {
@@ -102,8 +117,8 @@ public class DepartamentoController {
 		logger.info("Actualizando el departamento");
 		Departamento depart = departView.update();
 		EmpleadoController controller = new EmpleadoController();
-		Empleado emp = controller.getEmpleadoByIdForDepartamento();
-		depart.setJefeRecursivo(emp);
+		Optional<Empleado> emp = controller.findById();
+		depart.setJefe(emp.get());
 		boolean modificado = departRepoImpl.save(depart);
 		departView.mostrar(modificado ? "Modificado" : "No se ha modificado");
 	}
@@ -115,17 +130,11 @@ public class DepartamentoController {
 		departView.mostrar(borrado ? "Borrado" : "No se ha podido borrar");
 	}
 	
-	//Este método no se usa en esta clase, sólo sirve para EmpleadoController
-	public Departamento getDepartamentoByIdForEmple() {
+	public Optional<Departamento> findById() {
 		Integer id = departView.findById();
 		logger.info("Obteninedo el departamento por el id: " + id);
-		Optional<Departamento> depart = departRepoImpl.findById(id);
-		if (depart != null) {
-			departView.mostrar(depart);
-			return depart.get();
-		}else {
-			return null;
-		}
-
+		Optional<Departamento> depart = departRepoImpl.findById(id).or(null);
+		
+		return depart;
 	}
 }

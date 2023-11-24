@@ -46,6 +46,12 @@ public class EmpleadoController {
 			case 5:
 				mostrarProyectosDelEmpleado();
 				break;
+			case 6:
+				anadirProyecto();
+				break;
+			case 7:
+				mostrarEmpleadoById();
+				break;
 			default:
 				IO.println("Valor introducido inválido");
 				break;
@@ -57,7 +63,6 @@ public class EmpleadoController {
 		int idEmpleado = view.findById();
 		Optional<Empleado> emp= empleadorepository.findById(idEmpleado);
 		view.mostrarProyectosDelEmpleado(emp);
-		
 	}
 
 	private void mostrarEmpleados() {
@@ -74,51 +79,16 @@ public class EmpleadoController {
 		view.mostrar(anadir ? "Añadido" : "No se ha añadido");
 	}
 
-	public void getEmpleadoById() {
+	public Optional<Empleado> findById() {
 		Optional<Empleado> emple;
 		Integer id = view.findById();
 		logger.info("Obteninedo el empleado por el id: " + id);
 		emple = empleadorepository.findById(id);
-		if (emple != null) {
-			view.mostrar(emple);
-		} else {
-			IO.println("No se ha encontrado el empleado");
-		}
+		return emple;
 	}
-
-	public Empleado getEmpleadoByIdForDepartamento() {
-		Optional<Empleado> emple;
-		Integer id = view.findById();
-		logger.info("Obteninedo el empleado por el id: " + id);
-		emple = empleadorepository.findById(id);
-		if (emple != null) {
-			return emple.get();
-		} else {
-			IO.println("No se ha encontrado el empleado");
-			return null;
-		}
-
-	}
-
-	public void updateEmpleado() {
-		boolean anadir;
-		Integer id;
-		Departamento dep = new Departamento();
-		DepartamentoController dc = new DepartamentoController();
-		ProyectoController pc = new ProyectoController();
-		Proyecto pro = new Proyecto();
-		Optional<Empleado> emple;
-		id = view.findById();
-		emple = empleadorepository.findById(id);
-		if (emple == null) {
-			IO.println("No se ha encontrado el empleado");
-		}
-		dep = dc.getDepartamentoByIdForEmple();
-		pro = pc.getProyectoByIdForEmpleado();
-		emple.get().setDepartamento(dep);
-		logger.info("Actualizando el empleado " + emple.get().getId());
-		anadir = empleadorepository.save(emple.get());
-		view.mostrar(anadir ? "Actualizado" : "No se ha actualizado");
+	
+	private void mostrarEmpleadoById() {
+		view.mostrar(findById());
 	}
 
 	public void deleteEmpleado() {
@@ -130,5 +100,42 @@ public class EmpleadoController {
 		}
 		boolean eliminar = empleadorepository.delete(emple.get());
 		IO.println(eliminar ? "Eliminado" : "No se ha podido eliminar");
+	}
+	
+	public void anadirProyecto() {
+		Integer id;
+		Optional<Proyecto> pro;
+		ProyectoController pc = new ProyectoController();
+		Optional<Empleado> emple;
+		id = view.findById();
+		emple = empleadorepository.findById(id);
+		if (emple == null) {
+			IO.println("No se ha encontrado el empleado");
+			return;
+		}
+		pro = pc.findProyectoById();
+		emple.get().addProyecto(pro.get());
+		
+	}
+	
+	public void updateEmpleado() {
+		boolean anadir;
+		Optional<Departamento> dep;
+		DepartamentoController dc = new DepartamentoController();
+		ProyectoController pc = new ProyectoController();
+		Optional<Proyecto> pro;
+		Optional<Empleado> emple;
+		emple = view.modificar();
+		if (emple == null) {
+			IO.println("No se ha encontrado el empleado");
+			return;
+		}
+		dep = dc.findById();
+		pro = pc.findProyectoById();
+		emple.get().setDepartamento(dep.get());
+		emple.get().addProyecto(pro.get());
+		logger.info("Actualizando el empleado " + emple.get().getId());
+		anadir = empleadorepository.save(emple.get());
+		view.mostrar(anadir ? "Actualizado" : "No se ha actualizado");
 	}
 }

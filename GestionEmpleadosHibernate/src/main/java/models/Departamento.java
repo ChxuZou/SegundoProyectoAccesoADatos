@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Departamento implements Serializable{
+public class Departamento implements Serializable {
 	/**
 	 * 
 	 */
@@ -40,14 +40,11 @@ public class Departamento implements Serializable{
 	@OneToOne(targetEntity = Empleado.class, cascade = CascadeType.MERGE)
 	private Empleado jefe;
 	
-	public void setJefeRecursivo(Empleado jefe) {
+	public void setJefe(Empleado jefe) {
 		this.jefe = jefe;
-		this.jefe.setDepartamento(this);
-	}
-	
-	public void nullJefeRecursivo(Empleado jefe) {
-		this.jefe = null;
-		jefe.setDepartamento(null);
+		if(jefe!=null) {
+			jefe.setDepartamento(this);
+		}
 		
 	}
 	
@@ -62,7 +59,7 @@ public class Departamento implements Serializable{
 	
 	public void removeEmpleado(Empleado empleado) {
 		this.getEmpleados().remove(empleado);
-		empleado.setDepartamento(null);
+		empleado.removeDepartamento();
 	}
 	
 	

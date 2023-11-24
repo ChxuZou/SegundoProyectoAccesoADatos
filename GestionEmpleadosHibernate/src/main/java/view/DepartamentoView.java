@@ -11,7 +11,7 @@ public class DepartamentoView {
 	final List<String> opciones = List.of("1.- Mostrar departamentos", "2.- Crear departamento",
 			"3.- Modificar departamento", "4.- Eliminar departamento", "5.- Buscar departamento por id",
 			"6.- Mostrar todos los empleados de un departamento", "7.- Añadir un empleado a un departamento",
-			"0.- Salir");
+			"8.- Eliminar un empleado de un departamento", "0.- Salir");
 
 	public int getOpcion() {
 		IO.println("Departamentos: ");
@@ -64,7 +64,7 @@ public class DepartamentoView {
 	}
 
 	public void mostrar(Optional<Departamento> depart) {
-		IO.println(depart);
+		IO.println(depart.orElse(null));
 	}
 
 	public void mostrarEmpleadosDelDepartamento(Optional<Departamento> depart) {
@@ -72,5 +72,6 @@ public class DepartamentoView {
 			IO.println(empleado);
 		}
 	}
+	
 
 }

@@ -11,6 +11,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQuery;
@@ -39,22 +40,35 @@ public class Empleado implements Serializable{
 	private Double salario;
 	
 	@ManyToOne(targetEntity=Departamento.class, cascade = CascadeType.MERGE)
-	//@JoinColumn(name = "departamento_FK")
+	@JoinColumn(name = "departamento_FK")
 	private Departamento departamento;
 	
-	public void setDepartamentoRecursivo(Departamento departamento) {
+	public void setDepartamento(Departamento departamento) {
 		this.departamento = departamento;
-		this.departamento.addEmpleado(this);
+		if(departamento !=null) {
+			departamento.getEmpleados().add(this);
+		}
 	}
 	
-	public void addProyectoRecursivo(Proyecto proyecto) {
-		this.getProyectos().add(proyecto);
-		proyecto.getEmpleados().add(this);
+	public void removeDepartamento() {
+		Departamento departamento = this.getDepartamento();
+		this.departamento = null;
+		departamento.getEmpleados().remove(this);
 	}
 	
-	public void removeProyectoRecursivo(Proyecto proyecto) {
-		this.getProyectos().remove(proyecto);
-		proyecto.getEmpleados().remove(this);
+	public void addProyecto(Proyecto proyecto) {
+		if(proyecto!=null) {
+			this.getProyectos().add(proyecto);
+			proyecto.getEmpleados().add(this);
+		}
+	}
+	
+	public void removeProyecto(Proyecto proyecto) {
+		if(proyecto !=null) {
+			this.getProyectos().remove(proyecto);
+			proyecto.getEmpleados().remove(this);
+		}
+		
 	}
 	
 	@Builder.Default
@@ -80,5 +94,7 @@ public class Empleado implements Serializable{
 	public String toString() {
 		return "id=" + this.getId()+", nombre: "+this.getNombre() +", salario=" + this.getSalario() + ", departamento: "+ (departamento!=null ? "[id: "+this.departamento.getId()+", nombre: "+this.departamento.getNombre()+"]" : null);
 	}
+
+	
 
 }

@@ -222,4 +222,20 @@ public class IO {
 			}
 		}
 	}
+	
+	static public String readNombre() {
+		while (true) {
+			try {
+				String nombre;
+				nombre=sc.nextLine();
+				if (nombre.length()>0) {
+					return nombre;
+				} else {
+					throw new Exception("El nombre debe tner caracteres");
+				}
+			} catch (Exception e) {
+				System.err.print("ERROR: No hay caracteres");
+			}
+		}
+	}
 }

@@ -46,14 +46,19 @@ public class Proyecto implements Serializable{
     )
 	private Set<Empleado> empleados = new HashSet<Empleado>();
 	
-	public void addEmpleadoRecursivo(Empleado empleado) {
-		this.getEmpleados().add(empleado);
-		empleado.getProyectos().add(this);
+	public void addEmpleado(Empleado empleado) {
+		if(empleado!=null) {
+			this.getEmpleados().add(empleado);
+			empleado.getProyectos().add(this);
+		}
+		
 	}
 	
-	public void removeEmpleadoRecursivo(Empleado empleado) {
-		this.removeEmpleadoRecursivo(empleado);
-		empleado.getProyectos().add(this);
+	public void removeEmpleado(Empleado empleado) {
+		if(empleado != null) {
+			this.getEmpleados().remove(empleado);
+			empleado.getProyectos().remove(this);
+		}
 	}
 	
 	@Override
