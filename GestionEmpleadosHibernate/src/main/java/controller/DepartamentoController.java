@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.logging.Logger;
-
 import models.Departamento;
 import models.Empleado;
 import repositories.departamento.DepartamentoRepositoryImpl;

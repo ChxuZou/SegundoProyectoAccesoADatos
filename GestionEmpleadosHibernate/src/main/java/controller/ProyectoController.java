@@ -66,8 +66,8 @@ public class ProyectoController {
 			int idPro = proyectoView.findById();
 			Optional<Proyecto> proyecto = proyectoRepositoryImpl.findById(idPro);
 			EmpleadoController empleadoController = new EmpleadoController();
-			Empleado empleado = empleadoController.getEmpleadoByIdForDepartamento();
-			proyecto.get().addEmpleado(empleado);
+			Optional<Empleado> empleado = empleadoController.findById();
+			proyecto.get().addEmpleado(empleado.get());
 			boolean add = proyectoRepositoryImpl.save(proyecto.get());
 			proyectoView.mostrar(add ? "Se ha añadido empleado al proyecto" : "No se ha añadido al proyecto");
 		} catch (NoSuchElementException e) {
