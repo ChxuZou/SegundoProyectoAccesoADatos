@@ -96,13 +96,10 @@ public class ProyectoController {
 		proyectoView.mostrar(anadido ? "Añadido" : "No se ha añadido");
 
 	}
-
-	
 	
 	private void mostrarProyectoById() {
 		proyectoView.mostrar(findProyectoById());
 	}
-	
 
 	private void updateProyecto() {
 		Proyecto proyecto;

@@ -198,16 +198,11 @@ public class IO {
 		return sc.nextLine();
 	}
 
-	/*
-	 * Métodos para idioma español
-	 *
-	 * static public void escribir(Object o) { println(o); }
-	 * static public void mostrar(Object o) { println(o); }
-	 * static public int leerEntero() { return readInt(); }
-	 * static public double leerDecimal() { return readDouble(); }
-	 * static public char leerCaracter() { return readChar(); }
+	/**
+	 * Lee el salario de un empleado 
+	 * @return el salario si es correcto
 	 */
-	public static Double readSalario(){
+	public static Double readSalario() {
 		while (true) {
 			try {
 				double salario;
@@ -215,7 +210,7 @@ public class IO {
 				if (salario>=0) {
 					return salario;
 				} else {
-					throw new Exception("El salario debe ser mayor a 0");
+					throw new Exception("El salario debe ser mayor o igual a 0");
 				}
 			} catch (Exception e) {
 				System.err.print("ERROR: No es de tipo double ? ");
@@ -223,6 +218,10 @@ public class IO {
 		}
 	}
 	
+	/**
+	 * Lee el nombre
+	 * @return el nombre si no está vacío
+	 */
 	static public String readNombre() {
 		while (true) {
 			try {
@@ -231,7 +230,7 @@ public class IO {
 				if (nombre.length()>0) {
 					return nombre;
 				} else {
-					throw new Exception("El nombre debe tner caracteres");
+					throw new Exception("El nombre debe tener caracteres");
 				}
 			} catch (Exception e) {
 				System.err.print("ERROR: No hay caracteres");

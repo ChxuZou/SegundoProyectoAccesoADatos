@@ -58,7 +58,6 @@ public class DepartamentoController {
 				break;
 			}
 		} while (fin == false);
-
 	}
 
 	private void removeEmpleadoDeDepartamento() {
@@ -73,7 +72,6 @@ public class DepartamentoController {
 		} catch (NoSuchElementException e) {
 			departView.mostrar("No se ha encontrado el departamento con id "+idDepart);
 		}
-		
 	}
 
 	private void addEmpleadoADepartamento() {
@@ -104,7 +102,6 @@ public class DepartamentoController {
 
 	private void mostrarDepartamentoById() {
 		departView.mostrar(findById());
-		
 	}
 
 	private void mostrarDepartamentos() {
